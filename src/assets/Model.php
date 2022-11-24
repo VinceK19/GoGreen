@@ -28,8 +28,8 @@ class Model{
         }
     }
 
-    function get($id, $columns="*"){
-        $sql = "SELECT ".$columns." FROM ".$this->table." WHERE id=".$id ;
+    function get($condition){
+        $sql = "SELECT * FROM ".$this->table." WHERE ".$condition ;
         $result =  $this->con->query($sql);
         if ( $result ) {
             return $result->fetch_assoc();
@@ -39,7 +39,9 @@ class Model{
     }
 
     function create($data){
-        $sql = "INSERT INTO ".$this->table." (".implode(",",array_keys($data)).") VALUES (".implode(",",array_values($data)).")";
+        print_r($data);
+        $sql = "INSERT INTO ".$this->table." (".implode(",",array_keys($data)).") VALUES (".implode(",",array_map(function ($v) { return "'".$v."'"; } ,array_values($data))).")";
+        echo $sql;
         if  ($this->con->query($sql)){
             return TRUE;
         } else {
@@ -50,9 +52,9 @@ class Model{
     function update($id, $change=[]){
         $stmt = [];
         foreach($change as $key => $value){
-            $stmt.push( $key."=".$value );
+            array_push($stmt, $key."=".$value );
         }
-        $sql = "UPDATE ".$this->table." SET ".implode(",",$stmt);
+        $sql = "UPDATE ".$this->table." SET ".implode(",",$stmt)." WHERE id=".$id;
         if ( $this->con->query($sql) ){
             return TRUE;
         } else {

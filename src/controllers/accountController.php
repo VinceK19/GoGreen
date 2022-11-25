@@ -3,7 +3,7 @@
 class AccountController extends Controller {
 //  Action  ========================================================
     function index(){
-        if (!isset($_SESSION["username"])) {
+        if (!isset($_SESSION["user_id"])) {
             $this->login();
         } else {
             echo "Account Page";
@@ -69,11 +69,13 @@ class AccountController extends Controller {
 
 //  Method  ========================================================
     function _login($data){
+        $_SESSION["user_id"] = $data["id"];
         $_SESSION["username"] = $data["username"];
         $_SESSION["is_admin"] = $data["is_admin"];
     }
 
     function _logout(){
+        unset($_SESSION["user_id"]);
         unset($_SESSION["username"]);
         unset($_SESSION["is_admin"]);
     }

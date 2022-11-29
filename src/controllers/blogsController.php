@@ -7,11 +7,11 @@ class BlogsController extends Controller{
     }
 
 
-    function post($id){
+    function post($id,$a){
         $blog = $this->model("Blog");
 
         $post = $blog->get($id);
-        $this->view("post", "Post" ,$post);
+        // $this->view("post", "Post" ,$post);
     }
 }
 ?>

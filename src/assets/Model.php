@@ -18,11 +18,10 @@ class Model{
 
     function getAll($columns="*", $condition="", $orderBy=""){
         $orderBy = $orderBy? "ORDER BY ".$orderBy : "";
-        if (gettype($condition) != "array"){
-            $condition = array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition));
+        if (gettype($condition) == "array"){
+            $condition = implode("AND", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition))) ;
         }
-        $condition = $condition? "WHERE ".$condition: "";
-        $sql = "SELECT ".$columns." FROM ".$this->table." ".$condition." ".$orderBy;
+        $sql = "SELECT ".$columns." FROM ".$this->table." ".($condition? "WHERE ".$condition : "")." ".$orderBy;
         $result =  $this->con->query($sql);
         if ( $result ){
             return $result->fetch_all(MYSQLI_ASSOC);
@@ -32,10 +31,10 @@ class Model{
     }
 
     function get($condition){
-        if (gettype($condition) != "array"){
-            $condition = array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition));
+        if (gettype($condition) == "array"){
+            $condition = implode("AND", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
         }
-        $sql = "SELECT * FROM ".$this->table." WHERE ".implode(" AND ", $condition) ;
+        $sql = "SELECT * FROM ".$this->table." WHERE ".$condition ;
         $result =  $this->con->query($sql);
         if ( $result ) {
             return $result->fetch_assoc();
@@ -57,11 +56,12 @@ class Model{
     }
 
     function update($condition, $change=[]){
-        if (gettype($condition) != "array"){
-            $condition = array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition));
+        if (gettype($condition) == "array"){
+            $condition = implode(" AND ", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
         }
         $change = array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($change), array_values($change));
-        $sql = "UPDATE ".$this->table." SET ".implode(",",$change)." WHERE ".implode(" AND ", $condition);
+        $sql = "UPDATE ".$this->table." SET ".implode(",",$change)." WHERE ".$condition;
+        print($sql);
         if ( $this->con->query($sql) ){
             return $this->con->insert_id;
         } else {
@@ -70,10 +70,10 @@ class Model{
     }
 
     function delete($condition){
-        if (gettype($condition) != "array"){
-            $condition = array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition));
+        if (gettype($condition) == "array"){
+            $condition = implode("AND", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
         }
-        $sql = "DELETE FROM ".$this->table." WHERE ".implode(" AND ", $condition);
+        $sql = "DELETE FROM ".$this->table." WHERE ".$condition;
         if ($this->con->query($sql)) {
             return TRUE;
         } else {

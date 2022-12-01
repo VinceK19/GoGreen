@@ -1,11 +1,13 @@
 <?php
 
 class HomeController extends Controller {
-
+    function __construct(){
+    }
     function index(){
-        $member = $this->model("Member");
-        
-        $this->view("home");
+        $this->view("home", [
+            "title" => "Home",
+            "breadcrumb" => []
+        ]);
     }
 }
 ?>

@@ -1,1 +1,3 @@
-<h1>Home</h1>
+<?php 
+require_once(PATH_COMPONENTS."title-box.php");
+?>

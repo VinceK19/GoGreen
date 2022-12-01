@@ -1,3 +1,4 @@
+    <?php  require_once PATH_COMPONENTS."title-box.php"?>
     <!-- Start Shop Page  -->
     <div class="shop-box-inner">
         <div class="container">
@@ -25,7 +26,7 @@
                                     <?php if (isset($data["products"][0])) {?>
                                         <div class="row">
                                         <?php foreach($data["products"] as $product){
-                                            include PATH_COMPONENTS."card.php";
+                                            include PATH_COMPONENTS."product-card.php";
                                         }?>
                                     </div>    
                                     <?php } else {?>
@@ -61,4 +62,4 @@
         </div>
     </div>
     <!-- End Shop Page -->
-
+<script src="<?= BASE_URL."public/js/shop.js"?>"></script>

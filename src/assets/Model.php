@@ -19,10 +19,10 @@ class Model{
     function getAll($columns="*", $condition="", $orderBy=""){
         $orderBy = $orderBy? "ORDER BY ".$orderBy : "";
         if (gettype($condition) == "array"){
-            $condition = implode("AND", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition))) ;
+            $condition = implode(" AND ", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition))) ;
         }
         $sql = "SELECT ".$columns." FROM ".$this->table." ".($condition? "WHERE ".$condition : "")." ".$orderBy;
-        $result =  $this->con->query($sql);
+        $result =  $this->con->query($sql);        
         if ( $result ){
             return $result->fetch_all(MYSQLI_ASSOC);
         } else {
@@ -32,7 +32,7 @@ class Model{
 
     function get($condition){
         if (gettype($condition) == "array"){
-            $condition = implode("AND", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
+            $condition = implode(" AND ", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
         }
         $sql = "SELECT * FROM ".$this->table." WHERE ".$condition ;
         $result =  $this->con->query($sql);
@@ -47,7 +47,6 @@ class Model{
         $keys = implode(",",array_keys($data));
         $values = implode(",",array_map(function ($v) { return "'".$v."'"; } ,array_values($data)));
         $sql = "INSERT INTO ".$this->table." (".$keys.") VALUES (".$values.")";
-        echo $sql;
         if  ($this->con->query($sql)){
             return $this->con->insert_id;
         } else {
@@ -60,8 +59,7 @@ class Model{
             $condition = implode(" AND ", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
         }
         $change = array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($change), array_values($change));
-        $sql = "UPDATE ".$this->table." SET ".implode(",",$change)." WHERE ".$condition;
-        print($sql);
+        $sql = "UPDATE ".$this->table." SET ".implode(",",$change)." WHERE ".$condition;        
         if ( $this->con->query($sql) ){
             return $this->con->insert_id;
         } else {
@@ -71,7 +69,7 @@ class Model{
 
     function delete($condition){
         if (gettype($condition) == "array"){
-            $condition = implode("AND", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
+            $condition = implode(" AND ", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
         }
         $sql = "DELETE FROM ".$this->table." WHERE ".$condition;
         if ($this->con->query($sql)) {

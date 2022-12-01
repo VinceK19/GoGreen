@@ -19,5 +19,30 @@ class ShopController extends Controller {
             "brands" => $brands
         ]);
     }
+
+    function item($id){
+        try {
+            $modelProduct = $this->model("Product");
+            $item = $modelProduct->get_data($id);
+            $this->view("shop-detail", [
+                "page_title" => $item["name"],
+                "title" => "Shop Detail",
+                "breadcrumb" => [
+                    ["name" => "Shop", "link" => BASE_URL."shop/list"]
+                ],
+                "item" => $item["product"],
+                "comments" => $item["comments"]
+            ]);
+        } catch (Exception $th) {
+            echo $th->getMessage();
+        }
+        
+    }
+    
+    function test($id){
+        $model = $this->model("Product");
+        $result = $model->get_data($id);
+        print_r($result);
+    }
 }
 ?>

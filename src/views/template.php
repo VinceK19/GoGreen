@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
-    <title><?= $data["title"]?></title>
+    <title><?= isset($data["page_title"])? $data["page_title"] : $data["title"] ?></title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -25,10 +25,11 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?php print(BASE_URL)?>public/css/custom.css">
     <!-- ALL JS FILES -->
-    <script src="/GoGreen/public/js/jquery-3.2.1.min.js"></script>
-    <!-- <script src="/GoGreen/public/js/jquery-3.6.1.min.js"></script> -->
-    <script src="/GoGreen/public/js/popper.min.js"></script>
-    <script src="/GoGreen/public/js/bootstrap.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/jquery-3.2.1.min.js"></script>
+    <!-- <script src="<?php print(BASE_URL)?>public/js/jquery-3.6.1.min.js"></script> -->
+    <script src="<?php print(BASE_URL)?>public/js/popper.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/bootstrap.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/js.cookie.min.js"></script>
 
 </head>
 <body>
@@ -40,16 +41,16 @@
     ?>
 
     <!-- ALL PLUGINS -->
-    <script src="/GoGreen/public/js/jquery.superslides.min.js"></script>
-    <script src="/GoGreen/public/js/bootstrap-select.js"></script>
-    <script src="/GoGreen/public/js/inewsticker.js"></script>
-    <script src="/GoGreen/public/js/bootsnav.js."></script>
-    <script src="/GoGreen/public/js/images-loded.min.js"></script>
-    <script src="/GoGreen/public/js/isotope.min.js"></script>
-    <script src="/GoGreen/public/js/owl.carousel.min.js"></script>
-    <script src="/GoGreen/public/js/baguetteBox.min.js"></script>
-    <script src="/GoGreen/public/js/form-validator.min.js"></script>
-    <script src="/GoGreen/public/js/contact-form-script.js"></script>
-    <script src="/GoGreen/public/js/custom.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/jquery.superslides.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/bootstrap-select.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/inewsticker.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/bootsnav.js."></script>
+    <script src="<?php print(BASE_URL)?>public/js/images-loded.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/isotope.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/owl.carousel.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/baguetteBox.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/form-validator.min.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/contact-form-script.js"></script>
+    <script src="<?php print(BASE_URL)?>public/js/custom.js"></script>
 </body>
 </html>

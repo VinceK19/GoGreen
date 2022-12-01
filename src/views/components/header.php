@@ -1,4 +1,10 @@
     <!-- Start Main Top -->
+    <?php 
+    $badge =  isset($_SESSION["user"])?  array_reduce($_SESSION["user"]["cart"], function($sum,$item){
+        return $sum + $item["quantity"];
+    }): 0;
+    ?>
+    
     <div class="main-top">
         <div class="container-fluid">
             <div class="row">
@@ -75,7 +81,6 @@
 							<a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
 							<ul class="dropdown-menu">
 								<li><a href="<?php  print(BASE_URL."shop")?>">Shop</a></li>
-								<li><a href="<?php  print(BASE_URL."shop/detail")?>">Shop Detail</a></li>
 								<li><a href="<?php  print(BASE_URL."cart")?>">Cart</a></li>
 								<li><a href="<?php  print(BASE_URL."cart/checkout")?>">Checkout</a></li>
 								<li><a href="<?php  print(BASE_URL."account")?>">My Account</a></li>
@@ -91,9 +96,9 @@
                 <div class="attr-nav">
                     <ul>
                         <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
-                        <li class="side-menu"><a href="#">
+                        <li class="side-menu"><a href="<?= BASE_URL."cart"?>">
 						<i class="fa fa-shopping-bag"></i>
-                            <span class="badge">3</span>
+                            <span class="badge"><?= $badge?></span>
 							<p>My Cart</p>
 					</a></li>
                     </ul>
@@ -101,7 +106,7 @@
                 <!-- End Atribute Navigation -->
             </div>
             <!-- Start Side Menu -->
-            <div class="side">
+            <!-- <div class="side">
                 <a href="#" class="close-side"><i class="fa fa-times"></i></a>
                 <li class="cart-box">
                     <ul class="cart-list">
@@ -126,7 +131,7 @@
                         </li>
                     </ul>
                 </li>
-            </div>
+            </div> -->
             <!-- End Side Menu -->
         </nav>
         <!-- End Navigation -->

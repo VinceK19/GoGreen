@@ -13,13 +13,12 @@ class AccountController extends Controller {
         try {
             if (isset($_SESSION["user"])){
                 header("Location: ".BASE_URL."account/profile");
-                return;
             } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $model = $this->model("member");
                 $username = $_POST["username"];
                 $password = $_POST["password"];
                 $err = "";
-                $member = $model->get("username='".$username."'");
+                $member = $model->member_get_data($username);
                 if (!$member){
                     $err = "Người dùng không tồn tại";
                 } else if (md5($password) != $member["password"]){
@@ -28,7 +27,7 @@ class AccountController extends Controller {
                     $model->update(["id" => $member["id"]],["last_login" => time()]);
                     $this->_login($member);
                 }
-                header("Location: ".BASE_URL."home");
+                header("Location: ".BASE_URL.( $err == ""? "home" : "account/login"));
             } else {
                 $this->view("login",[
                     "title" => "Sign In",
@@ -127,6 +126,11 @@ class AccountController extends Controller {
 
     function _logout(){
         unset($_SESSION["user"]);
+    }
+
+    function test(){
+        $model = $this->model("Member");
+        echo json_encode( $model->member_get_data("johncena") );
     }
 }
 ?>

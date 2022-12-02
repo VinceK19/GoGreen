@@ -59,7 +59,7 @@ class Model{
             $condition = implode(" AND ", array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($condition), array_values($condition)))  ;
         }
         $change = array_map(function ($k, $v) { return $k."='".$v."'";}, array_keys($change), array_values($change));
-        $sql = "UPDATE ".$this->table." SET ".implode(",",$change)." WHERE ".$condition;        
+        $sql = "UPDATE ".$this->table." SET ".implode(",",$change)." WHERE ".$condition;
         if ( $this->con->query($sql) ){
             return $this->con->insert_id;
         } else {

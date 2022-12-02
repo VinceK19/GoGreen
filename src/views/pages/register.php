@@ -13,12 +13,12 @@ require_once(PATH_COMPONENTS."title-box.php");
             </div>
             <form method="post" action="<?= BASE_URL."account/register" ?>">
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label for="username" class="mb-0">Username</label>
                         <input type="text" class="form-control" name="username" placeholder="Username"  data-minlength="8"> 
                         <div class="help-block with-errors"></div>
                     </div>
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label for="password" class="mb-0">Password</label>
                         <input type="password" class="form-control" name="password" placeholder="Password" data-test="true"> 
                         <div class="help-block with-errors"></div>
@@ -33,7 +33,12 @@ require_once(PATH_COMPONENTS."title-box.php");
                         <input type="text" class="form-control" name="last_name" placeholder="Last Name" data-required="true">
                         <div class="help-block with-errors"></div>
                     </div>
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
+                        <label for="phone" class="mb-0">Phone number</label>
+                        <input type="number" class="form-control" name="phone" placeholder="Phone Number" data-required="true"> 
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group col-md-6">
                         <label for="email" class="mb-0">Email</label>
                         <input type="email" class="form-control" name="email" placeholder="Email" data-required="true"> 
                         <div class="help-block with-errors"></div>

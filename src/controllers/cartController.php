@@ -9,7 +9,7 @@ class CartController extends Controller {
             header("Location: ".BASE_URL."account/login");
         }
         $cart = $this->_get_orders();
-        $subTotal = array_reduce( $cart, function($res, $item) { return $res + $item["total"]; }, 0);
+        $subTotal = $this->_cal_subTotal($cart);
         $this->view("cart",[
             "title" => "Cart",
             "breadcrumb" => [
@@ -23,14 +23,29 @@ class CartController extends Controller {
     }
 
     function checkout(){
-        $model = $this->model("OrderItem");
-        if ($_SERVER["REQEST_METHOD"] == "POST"){
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+            $modelItem = $this->model("OrderItem");
+            $modelInvoice =  $this->model("Invoice");
             $data = $_POST;
-            $condition = "id in (".implode(",",$data["ids"]).")";
-            $model->update("",["status" => 1]);
-            header("Location: ".BASE_URL."cart");
+            $cart = $this->_get_orders_assoc("order_id");
+            $condition = "id in (".implode(",",array_keys($cart)).")";
+            $invoice_id = $modelInvoice->create($data);
+            $modelItem->update($condition,["status" => 1, "invoice_id" => $invoice_id]);
+            $_SESSION["user"]["cart"] = [];
+            header("Location: ".BASE_URL."shop/list");
         } else {
-            echo "Not Found";
+            $cart = $_SESSION["user"]["cart"];
+            $subTotal = $this->_cal_subTotal($cart);
+            $this->view("checkout",[
+                "title" => "Checkout",
+                "breadcrumb" => [
+                    ["name" => "Cart", "link" => BASE_URL."cart"],
+                ],
+                "cart" => $_SESSION["user"]["cart"],
+                "sub_total" => $subTotal,
+                "tax" => 0,
+                "total" => $subTotal,
+            ]);
         }
     }
 
@@ -72,21 +87,25 @@ class CartController extends Controller {
         }
     }
 
-    function remove_order($order_id){
+    function remove_order(){
         try {
+            if ($_SERVER['REQUEST_METHOD'] != "POST"){
+                throw new Exception("Not Found");
+            }
             if (!isset($_SESSION["user"])){
                 throw new Exception("Authorization Requested");
             };
             $model = $this->model("OrderItem");
+            $order_id = $_POST["order_id"];
             $customer_id = $_SESSION["user"]["id"];
-            $model->delete(["customer_id" => $customer_id, "id" => $order_id]);
+            $model->delete(["customer_id" => $customer_id, "id" => $order_id, "status" => 0]);
             foreach($_SESSION["user"]["cart"] as $k => $v){
                 if($v["order_id"] == $order_id){
                     unset($_SESSION["user"]["cart"][$k]);
                     break;
                 }
             }
-            $this->index();
+            $this->load("cart-table", ["cart" => $this->_get_orders()]);
         } catch (Exception $th) {
             echo json_encode(["error" => ["message" => $th->getMessage()]]);
         }
@@ -103,13 +122,18 @@ class CartController extends Controller {
             $model = $this->model("OrderItem");
             $customer_id = $_SESSION["user"]["id"];
             $cart = $this->_get_orders_assoc("order_id");
-            foreach($_POST as $k => $v){
-                $order_id = explode('-', $k)[2];
-                $cart[ $order_id ][ "quantity" ] = $v;
-                $model->update(["customer_id" => $customer_id, "id" => $order_id], ["quantity" => $v]); 
+            foreach($_POST["data"] as $item){
+                $order_id = explode('-', $item["name"])[2];
+                $cart[ $order_id ][ "quantity" ] = $item["value"];
+                $model->update(["customer_id" => $customer_id, "id" => $order_id], ["quantity" => $item["value"]]); 
             }
             $_SESSION["user"]["cart"] = array_values($cart);
-            $this->index();
+            $subTotal = $this->_cal_subTotal($cart);
+            $this->load("cart-summary",[
+                "sub_total" => $subTotal,
+                "tax" => 0,
+                "total" => $subTotal,
+            ]);
         } catch (Exception $th) {
             echo json_encode(["error" => ["message" => $th->getMessage()]]);
         }
@@ -130,10 +154,16 @@ class CartController extends Controller {
         return array_column($items, null, $indexCol);
     }
 
+    private function _cal_subTotal($cart){
+        return array_reduce( $cart, function($res, $item) { return $res + $item["price"]*$item["quantity"]; }, 0);
+    }
+
     function test(){
         $model = $this->model("OrderItem");
         $items = $model->orderGetAll($_SESSION["user"]["id"]);
         echo json_encode($items);
     }
+
+
 }
 ?>

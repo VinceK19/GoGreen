@@ -25,7 +25,7 @@ class ShopController extends Controller {
             $modelProduct = $this->model("Product");
             $item = $modelProduct->get_data($id);
             $this->view("shop-detail", [
-                "page_title" => $item["name"],
+                "page_title" => $item["product"]["name"],
                 "title" => "Shop Detail",
                 "breadcrumb" => [
                     ["name" => "Shop", "link" => BASE_URL."shop/list"]

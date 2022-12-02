@@ -1,8 +1,8 @@
     <!-- Start Main Top -->
     <?php 
-    $badge =  isset($_SESSION["user"])?  array_reduce($_SESSION["user"]["cart"], function($sum,$item){
+    $badge =  isset($_SESSION["user"]) && isset($_SESSION["user"]["cart"])?  array_reduce($_SESSION["user"]["cart"], function($sum,$item){
         return $sum + $item["quantity"];
-    }): 0;
+    },0): 0;
     ?>
     
     <div class="main-top">

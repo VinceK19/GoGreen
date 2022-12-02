@@ -31,6 +31,11 @@ $edit = $data["mode"] == "edit"
             <div class="help-block with-errors"></div>
         </div>
         <div class="form-group col-md-12">
+            <label for="phone" class="mb-0">Phone Number</label>
+            <input type="number" class="form-control" name="phone" value="<?= $user["phone"]?>" placeholder="Phone Number" data-required="true" <?= $edit? "" : "readonly"?>> 
+            <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group col-md-12">
             <label for="email" class="mb-0">Email</label>
             <input type="email" class="form-control" name="email" value="<?= $user["email"]?>" placeholder="Email" data-required="true" <?= $edit? "" : "readonly"?>> 
             <div class="help-block with-errors"></div>

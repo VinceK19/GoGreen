@@ -10,5 +10,9 @@ class Controller {
     public function view($name, $data=[]) {
         require_once "./src/views/template.php";
     }
+
+    public function load($name, $data=[]){
+        require "./src/views/components/".$name.".php";
+    }
 }
 ?>

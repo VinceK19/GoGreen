@@ -68,7 +68,7 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                    <a class="navbar-brand" href="<?php  print(BASE_URL."home")?>"><img src="images/logo.png" class="logo" alt=""></a>
+                    <a class="navbar-brand" href="<?php  print(BASE_URL."home")?>"><img src="<?= BASE_URL?>public/images/logo.png" class="logo" alt=""></a>
                 </div>
                 <!-- End Header Navigation -->
 
@@ -86,8 +86,8 @@
 								<li><a href="<?php  print(BASE_URL."account")?>">My Account</a></li>
 							</ul>
 						</li>
-						<li class="nav-item"><a class="nav-link" href="<?php  print(BASE_URL."news")?>">News</a></li>
-						<li class="nav-item active"><a class="nav-link" href="<?php  print(BASE_URL."contact")?>">Contact Us</a></li>
+						<li class="nav-item"><a class="nav-link" href="<?php  print(BASE_URL."blog")?>">Blogs</a></li>
+						<li class="nav-item"><a class="nav-link" href="<?php  print(BASE_URL."contact")?>">Contact Us</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->

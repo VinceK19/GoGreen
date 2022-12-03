@@ -1,10 +1,9 @@
 <?php 
 require_once PATH_COMPONENTS."title-box.php";
 $item = $data["item"];
-$comments = $data["comments"];
 ?>
 <!-- Start Shop Detail  -->
-<div class="shop-detail-box-main">
+<div class="shop-detail-box-main" data-product-id="<?= $item["id"]?>">
     <div class="container">
         <div class="row">
             <div class="col-xl-5 col-lg-5 col-md-6">
@@ -21,15 +20,18 @@ $comments = $data["comments"];
                         <li>
                             <div class="form-group quantity-box">
                                 <label class="control-label">Quantity</label>
-                                <input class="form-control" value="0" min="0" max="20" type="number">
+                                <input id="quantity" class="form-control" value="0" min="0" max="20" type="number">
                             </div>
                         </li>
                     </ul>
 
                     <div class="price-box-bar">
                         <div class="cart-and-bay-btn">
-                            <a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
-                            <a class="btn hvr-hover" data-fancybox-close="" href="#">Add to cart</a>
+                            <?php if (isset($_SESSION["user"])) { ?>
+                                <a id="addToCart" class="btn hvr-hover" data-fancybox-close="" href="">Add to cart</a>
+                            <?php } else { ?>
+                                <a class="btn hvr-hover" href="<?= BASE_URL."account/login"?>">Log in to purchase</a>
+                            <?php }?>
                         </div>
                     </div>
 
@@ -51,19 +53,10 @@ $comments = $data["comments"];
         </div>
         
         <div class="row my-5 ">
-            <div class="card card-outline-secondary my-4 w-100">
-                <div class="card-header">
-                    <h2>Product Reviews</h2>
-                </div>
-                <div class="card-body">
-                    <?php foreach($comments as $comment){
-                        include PATH_COMPONENTS."comment-card.php";
-                    }?>
-                    <a href="#" class="btn hvr-hover">Leave a Review</a>
-                </div>
-                </div>
+            <?php require_once(PATH_COMPONENTS."comment-card.php")?>
         </div>
 
     </div>
 </div>
 <!-- End Cart -->
+<script src="<?= BASE_URL."public/js/shop.js"?>"></script>

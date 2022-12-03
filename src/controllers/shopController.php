@@ -38,6 +38,31 @@ class ShopController extends Controller {
         }
         
     }
+
+    // AJAX =================================================================
+
+    function post_comment(){
+        try {
+            if ($_SERVER["REQUEST_METHOD"] != "POST"){
+                throw new Exception("Method Not Allowed", 1);
+            } else if (!isset($_SESSION["user"])){
+                throw new Exception("Login required", 1);
+            } else {
+                $model = $this->model("ProductComment");
+                $user = $_SESSION["user"];
+                $data = $_POST; // comment: text, product_id: int
+                $data["date_created"] = time();
+                $data["customer_id"] = $user["id"];
+                $model->create($data);
+                $comments = $model->get_joined($data["product_id"]);
+                $this->load("comment-card", [
+                    "comments" => $comments
+                ]);
+            }
+        } catch (\Throwable $th) {
+            echo json_encode(["error" => $th->getMessage()]);
+        }
+    }
     
     function test($id){
         $model = $this->model("Product");

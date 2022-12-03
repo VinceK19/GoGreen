@@ -10,6 +10,7 @@ class Product extends Model {
             $product = $this->con->store_result();
             $this->con->next_result();
             $comments = $this->con->store_result();
+            $this->con->next_result();
             $data = [
                 "product" => $product->fetch_assoc(),
                 "comments" => $comments->fetch_all(MYSQLI_ASSOC)

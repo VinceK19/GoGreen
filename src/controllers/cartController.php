@@ -23,7 +23,9 @@ class CartController extends Controller {
     }
 
     function checkout(){
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+        if (!isset($_SESSION["user"])){
+            header("Location: ".BASE_URL."account/login");
+        } else if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $modelItem = $this->model("OrderItem");
             $modelInvoice =  $this->model("Invoice");
             $data = $_POST;
@@ -59,31 +61,31 @@ class CartController extends Controller {
         try {
             if ($_SERVER['REQUEST_METHOD'] != "POST"){
                 throw new Exception("Not Found");
-            }
-            if (!isset($_SESSION["user"])){
-                header("Location: ".BASE_URL."login");
-            };
-            $model = $this->model("OrderItem");
-            $cart = $this->_get_orders_assoc();
-            $product_id = $_POST["product_id"];
-            $customer_id = $_SESSION["user"]["id"];
-            if ( isset($cart[$product_id]) ){
-                $cart[$product_id]["quantity"] += 1;
-
-                $model->update(
-                    [ "product_id" => $product_id, "customer_id" => $customer_id], 
-                    [ "quantity" => $cart[$product_id]["quantity"]]);
+            } else if (!isset($_SESSION["user"])){
+                throw new Exception("Login required");
             } else {
-                $data = $_POST;
-                $data["customer_id"] = $customer_id;
-                $data["product_id"] = $product_id;
-                $model->create($data);
-                $cart = $model->orderGetAll($_SESSION["user"]["id"]);
+                $model = $this->model("OrderItem");
+                $cart = $this->_get_orders_assoc();
+                $product_id = $_POST["product_id"];
+                $quantity = $_POST["quantity"];
+                $customer_id = $_SESSION["user"]["id"];
+                
+                if ( isset($cart[$product_id]) ){
+                    $cart[$product_id]["quantity"] += $quantity;
+                    $model->update(
+                        [ "product_id" => $product_id, "customer_id" => $customer_id], 
+                        [ "quantity" => $cart[$product_id]["quantity"]]);
+                } else {
+                    $data = $_POST;
+                    $data["customer_id"] = $customer_id;
+                    $model->create($data);
+                    $cart = $model->orderGetAll($_SESSION["user"]["id"]);
+                }
+                $_SESSION["user"]["cart"] = array_values($cart);
+                echo json_encode($_SESSION["user"]["cart"]);
             }
-            $_SESSION["user"]["cart"] = array_values($cart);
-            echo json_encode($_SESSION["user"]["cart"]);
         } catch (Exception $th) {
-            echo json_encode(["error" => ["message" => $th->getMessage()]]);
+            echo json_encode(["error" => $th->getMessage()]);
         }
     }
 

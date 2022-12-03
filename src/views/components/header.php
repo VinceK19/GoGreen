@@ -86,7 +86,7 @@
 								<li><a href="<?php  print(BASE_URL."account")?>">My Account</a></li>
 							</ul>
 						</li>
-						<li class="nav-item"><a class="nav-link" href="<?php  print(BASE_URL."news")?>">News</a></li>
+						<li class="nav-item"><a class="nav-link" href="<?php  print(BASE_URL."blog")?>">Blogs</a></li>
 						<li class="nav-item active"><a class="nav-link" href="<?php  print(BASE_URL."contact")?>">Contact Us</a></li>
                     </ul>
                 </div>

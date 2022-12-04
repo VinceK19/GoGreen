@@ -20,6 +20,15 @@ class Product extends Model {
             throw new Exception($this->con->error);
         }
     }
+
+    public function get_all(){
+        $sql = "call product_get_all()";
+        if ($result = $this->con->query($sql)){
+            return $result->fetch_all(MYSQLI_ASSOC);
+        } else {
+            throw new Exception($this->con->error);
+        }
+    }
 }
 
 ?>

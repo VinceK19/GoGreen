@@ -52,7 +52,7 @@ class ShopController extends Controller {
                 $user = $_SESSION["user"];
                 $data = $_POST; // comment: text, product_id: int
                 $data["date_created"] = time();
-                $data["customer_id"] = $user["id"];
+                $data["author_id"] = $user["id"];
                 $model->create($data);
                 $comments = $model->get_joined($data["product_id"]);
                 $this->load("comment-card", [

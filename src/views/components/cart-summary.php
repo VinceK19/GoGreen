@@ -25,6 +25,6 @@
     <hr>
     <div class="d-flex gr-total">
         <h5>Grand Total</h5>
-        <div id="grand-price" class="ml-auto h5"> <?= number_format( $data["total"])?> </div>
+        <div id="grand-price" class="ml-auto h5"> <?= number_format( $data["total"])?> đ</div>
     </div>
     <hr> </div>

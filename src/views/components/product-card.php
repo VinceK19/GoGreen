@@ -11,7 +11,9 @@
                     <li><a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                     <li><a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                 </ul>
-                <a class="cart" onClick="addToCart(<?= $product["id"]?>)">Add to Cart</a>
+                <?php if (isset($_SESSION["user"])) { ?>
+                    <a class="cart" href="<?= BASE_URL."shop/item/".$product["id"]?>" >Add to Cart</a>
+                <?php }?>
             </div>
         </div>
         <div class="why-text">

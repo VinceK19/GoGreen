@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="<?php print(BASE_URL)?>public/css/custom.css">
     <!-- ALL JS FILES -->
     <script src="<?php print(BASE_URL)?>public/js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
     <!-- <script src="<?php print(BASE_URL)?>public/js/jquery-3.6.1.min.js"></script> -->
     <script src="<?php print(BASE_URL)?>public/js/popper.min.js"></script>
     <script src="<?php print(BASE_URL)?>public/js/bootstrap.min.js"></script>

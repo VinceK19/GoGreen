@@ -12,9 +12,13 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach($cart as $item){
-                include PATH_COMPONENTS."cart-item.php";
-            } ?>
+            <?php if (count($cart)){
+                foreach($cart as $item){
+                    include PATH_COMPONENTS."cart-item.php";
+                }
+            } else { ?>
+                <tr><td colspan="6"><h2>Cart is empty</h2></td></tr>
+            <?php }?>
         </tbody>
     </table>
 </form>

@@ -46,14 +46,23 @@ class AdminController extends Controller {
     }
 
     function user($id=""){
-        if ($id != ""){
-
-        } else {
+        if ($id == ""){
             $model = $this->model("Member");
             $users = $model->getAll();
             $this->admin_view("user", [
                 "title" => "User",
                 "users" => $users
+            ]);
+        } else if ($id == 'new'){
+            $this->admin_view("form/user-create",[
+                'title' => 'Create User',
+            ]);
+        } else {
+            $model = $this->model("Member");
+            $item = $model->get(["id" => $id]);
+            $this->admin_view("form/user-edit", [
+                "item" => $item,
+                "table" => "member",
             ]);
         }
     }
@@ -108,19 +117,24 @@ class AdminController extends Controller {
     }
 
     function blog($id=""){
-        if ($id != ""){
-            $model = $this->model("Blog");
-            $item = $model->get(["id" => $id]);
-            $this->admin_view("form/blog-edit", [
-                "title" => "Update blog",
-                "item" => $item,
-            ]);
-        } else {
+        if ($id == "") {
             $model = $this->model("Blog");
             $items = $model->getAll();
             $this->admin_view("blog", [
                 "title" => "Blog",
                 "items" => $items,
+            ]);
+            
+        } else if ($id == "new"){
+            $this->admin_view("form/blog-create", [
+                "title" => "Blog",
+            ]);
+        } else {
+            $model = $this->model("Blog");
+            $item = $model->get(["id" => $id]);
+            $this->admin_view("form/blog-edit", [
+                "title" => "Update blog",
+                "item" => $item,
             ]);
         }
     }
@@ -178,6 +192,12 @@ class AdminController extends Controller {
             if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $model = $this->model(ucfirst($table));
                 $data = $_POST;
+                if ($table == "blog"){
+                    $data["date_created"] = time();
+                }
+                if (isset($data["password"])){
+                    $data["password"] = md5($data["password"]);
+                }
                 $model->create($data);
                 header("Location: " . BASE_URL . "admin/$table");
             } else {

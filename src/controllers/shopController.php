@@ -4,6 +4,7 @@ class ShopController extends Controller {
     function index(){
         $this->list();
     }
+
     function list($filterBrand=""){
         $modelProduct = $this->model("Product");
         $modelBrand = $this->model("Brand");
@@ -63,4 +64,6 @@ class ShopController extends Controller {
             echo json_encode(["error" => $th->getMessage()]);
         }
     }
+}
+    
 ?>

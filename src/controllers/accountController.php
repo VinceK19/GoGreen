@@ -27,7 +27,7 @@ class AccountController extends Controller {
                     $model->update(["id" => $member["id"]],["last_login" => time()]);
                     $this->_login($member);
                 }
-                header("Location: ".BASE_URL.( $err == ""? "home" : "account/login"));
+                header("Location: ".BASE_URL.( $err == ""? "account/profile" : "account/login"));
             } else {
                 $this->view("login",[
                     "title" => "Sign In",

@@ -1,3 +1,4 @@
+<?php require_once PATH_COMPONENTS . "title-box.php";?>
 <div class="container mt-5 mb-5">
 <div class="title-all">
     <h1>My Order</h1>

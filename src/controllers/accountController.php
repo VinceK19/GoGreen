@@ -46,7 +46,7 @@ class AccountController extends Controller {
                 $items = $model->getAll("*",["customer_id" => $_SESSION["user"]["id"]]);
                 $this->view("order", [
                     "title" => "My Orders",
-                    "breadcrumb" => $this->breadcrumb,
+                    "breadcrumb" => [["name" => "My Account", "link" => BASE_URL."account"]],
                     "items" => $items,
                 ]);
             } else {
@@ -55,7 +55,7 @@ class AccountController extends Controller {
                 $item = $model->get_order($id);
                 $this->view("order-detail", [
                     "title" => "Order Detail",
-                    "breadcrumb" => $this->breadcrumb,
+                    "breadcrumb" => [["name" => "Order", "link" => BASE_URL."account/order"]],
                     "item" => $item["invoice"],
                     "orders" => $item["orders"]
                 ]);

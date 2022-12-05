@@ -115,7 +115,7 @@ class AccountController extends Controller {
 
     function updateProfile(){
         try {
-            if (isset($_POST)){
+            if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 $model = $this->model("Member");
                 $model->update(["id" => $_SESSION["user"]["id"] ], $_POST);
                 $_SESSION["user"] = array_merge($_SESSION["user"], $_POST);
@@ -126,9 +126,26 @@ class AccountController extends Controller {
             }
         } catch (Exception $th) {
             print($th->getMessage());
-        }
-
-        
+        }   
+    }
+    
+    function changePassword(){
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "POST"){
+                $model = $this->model("Member");
+                $pre_data = $_POST;
+                $user = $model->get(["id" => $_SESSION["user"]["id"]]);
+                if (md5($pre_data["old_password"]) == $user["password"]){
+                    $model->update(["id" => $_SESSION["user"]["id"] ], ["password" => md5($pre_data["new_password"])]);    
+                } 
+                header("Location: ".BASE_URL."account/profile");
+            } else {
+                throw new Exception("Method Not Allowed", 1);
+                
+            }
+        } catch (Exception $th) {
+            print($th->getMessage());
+        }   
     }
 
 //  Method  ========================================================

@@ -39,6 +39,32 @@ class AccountController extends Controller {
         }
     }
 
+    function order($id = ''){
+        if (isset($_SESSION["user"])) {
+            if ($id == ''){
+                $model = $this->model("Invoice");
+                $items = $model->getAll("*",["customer_id" => $_SESSION["user"]["id"]]);
+                $this->view("order", [
+                    "title" => "My Orders",
+                    "breadcrumb" => $this->breadcrumb,
+                    "items" => $items,
+                ]);
+            } else {
+                $model = $this->model("Invoice");
+                $orders = [];
+                $item = $model->get_order($id);
+                $this->view("order-detail", [
+                    "title" => "Order Detail",
+                    "breadcrumb" => $this->breadcrumb,
+                    "item" => $item["invoice"],
+                    "orders" => $item["orders"]
+                ]);
+            } 
+        } else {
+            header("Location: ".BASE_URL."account/login");
+        }
+    }
+
     function register(){
         try {
             if (isset($_SESSION["user_id"])){

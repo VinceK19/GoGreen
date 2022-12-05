@@ -9,6 +9,7 @@ $edit = $data["mode"] == "edit"
     <div class="row justify-content-between">
         <div class="p-3">
             <h2><b><?= strtoupper($user["username"]) ?>'S <small>PROFILE</small></b></h2>
+            <h2><a href="<?= BASE_URL."account/order"?>">View my orders</a></h2>
         </div>
         <div class="p-3">
         <?php if ($edit) { ?>

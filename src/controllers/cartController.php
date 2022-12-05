@@ -29,6 +29,7 @@ class CartController extends Controller {
             $modelItem = $this->model("OrderItem");
             $modelInvoice =  $this->model("Invoice");
             $data = $_POST;
+            $data["customer_id"] = $_SESSION["user"]["id"];
             $cart = $this->_get_orders_assoc("order_id");
             $condition = "id in (".implode(",",array_keys($cart)).")";
             $invoice_id = $modelInvoice->create($data);

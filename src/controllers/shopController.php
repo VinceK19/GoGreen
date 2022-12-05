@@ -63,11 +63,4 @@ class ShopController extends Controller {
             echo json_encode(["error" => $th->getMessage()]);
         }
     }
-    
-    function test($id){
-        $model = $this->model("Product");
-        $result = $model->get_data($id);
-        print_r($result);
-    }
-}
 ?>
